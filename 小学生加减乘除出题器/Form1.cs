@@ -34,6 +34,7 @@ namespace 小学生加减乘除出题器
             question();
             data();
             groupBox2.Visible = true;
+			label6.Text = "";
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -144,17 +145,8 @@ namespace 小学生加减乘除出题器
 
         public void data()
         {
-            
-            if (sum > 2)//重新算题时，重置已答提示
-            {
-                float Percentage=((float)right / (sum-2) * 100f);
-                label6.Text =  $"已答：{sum - 2}   对：{right}   错：{wrong}   正确率：{Percentage}%" ;
-            }
-            else
-            {
-                label6.Text = "";
-            }
-
+			float Percentage=((float)right / (sum-2) * 100f);
+			label6.Text =  $"已答：{sum - 2}   对：{right}   错：{wrong}   正确率：{Percentage}%" ;
         }
     }
 }
