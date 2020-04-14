@@ -95,7 +95,7 @@ namespace 小学生加减乘除出题器
                 {
                     if (number_1 < number_2) //前小后大就颠倒下位置
                     {
-                        if (number_2 % number_1 != 0)
+                        if (number_2 % number_1 != 0)//取模，不是整数就重新取一个
                         {
                             continue;
                         }
