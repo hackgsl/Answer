@@ -17,7 +17,7 @@ namespace 小学生加减乘除出题器
         {
             InitializeComponent();
         }
-        int sum, num = 1, right, wrong, result, number_1, number_2;
+        int sum, num = 1, right, wrong, result, number_1, number_2, number_3;
         private void Form1_Load(object sender, EventArgs e)
         {
             groupBox2.Visible = false;
@@ -34,7 +34,7 @@ namespace 小学生加减乘除出题器
             question();
             data();
             groupBox2.Visible = true;
-			label6.Text = "";
+            label6.Text = "";
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -42,9 +42,9 @@ namespace 小学生加减乘除出题器
             judge();
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
+        private void textBox3_TextChanged(object sender, EventArgs e)
         {
-            textBox2.Text = textBox2.Text.Trim();
+            textBox3.Text = textBox3.Text.Trim();
         }
 
         private void textBox2_KeyDown(object sender, KeyEventArgs e)
@@ -62,8 +62,9 @@ namespace 小学生加减乘除出题器
             {
                 //取2个随机数
                 Random random = new Random();
-                number_1 = random.Next(1, int.Parse(textBox1.Text));
-                number_2 = random.Next(1, int.Parse(textBox1.Text));
+                number_1 = random.Next(int.Parse(textBox1.Text), int.Parse(textBox2.Text));
+                number_2 = random.Next(int.Parse(textBox1.Text), int.Parse(textBox2.Text));
+                number_3 = random.Next(1, 5);
 
                 //判断运算符
                 if (radioButton1.Checked)
@@ -115,6 +116,10 @@ namespace 小学生加减乘除出题器
                         label4.Text = number_1 + " ÷ " + number_2 + " =";
                     }
                 } //除法
+                else if (radioButton5.Checked)
+                {
+                    question(number_3);
+                } //随机
                 break;
             }
             label2.Text = $"第 {num} 题：";
@@ -122,15 +127,75 @@ namespace 小学生加减乘除出题器
             sum++;
         }
 
+        public void question(int i)
+        {
+            while (true)
+            {
+                switch (i)
+                {
+                    //随机判断运算符
+                    case 1:
+                        result = number_1 + number_2;
+                        label4.Text = number_1 + " + " + number_2 + " ="; //加法
+                        break;
+                    case 2:
+                    {
+                        if (number_1 < number_2) //前小后大就颠倒下位置
+                        {
+                            result = number_2 - number_1;
+                            label4.Text = number_2 + " - " + number_1 + " =";
+                        }
+                        else
+                        {
+                            result = number_1 - number_2;
+                            label4.Text = number_1 + " - " + number_2 + " =";
+                        } //减法
+
+                        break;
+                    }
+                    case 3:
+                        result = number_1 * number_2;
+                        label4.Text = number_1 + " x " + number_2 + " ="; //乘法
+                        break;
+                    case 4:
+                    {
+                        if (number_1 < number_2) //前小后大就颠倒下位置
+                        {
+                            if (number_2 % number_1 != 0)//取模，不是整数就重新取一个
+                            {
+                                continue;
+                            }
+
+                            result = number_2 / number_1;
+                            label4.Text = number_2 + " ÷ " + number_1 + " =";
+                        }
+                        else
+                        {
+                            if (number_1 % number_2 != 0)
+                            {
+                                continue;
+                            }
+
+                            result = number_1 / number_2;
+                            label4.Text = number_1 + " ÷ " + number_2 + " =";
+                        } //除法
+
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+
         public void judge()
         {
-            if (textBox2.Text == "") return;
+            if (textBox3.Text == "") return;
 
-            if (textBox2.Text == result.ToString())
+            if (textBox3.Text == result.ToString())
             {
-                label5.Text = $"上一题：{label4.Text} {textBox2.Text}";
+                label5.Text = $"上一题：{label4.Text} {textBox3.Text}";
                 right++;
-                textBox2.Text = "";
+                textBox3.Text = "";
                 question();
                 data();
             }
@@ -145,8 +210,8 @@ namespace 小学生加减乘除出题器
 
         public void data()
         {
-			float Percentage=((float)right / (sum-2) * 100f);
-			label6.Text =  $"已答：{sum - 2}   对：{right}   错：{wrong}   正确率：{Percentage}%" ;
+            float Percentage = ((float)right / (sum - 2) * 100f);
+            label6.Text = $"累计已答：{sum - 2}   对：{right}   错：{wrong}   正确率：{Percentage}%";
         }
     }
 }
