@@ -22,7 +22,7 @@ namespace 小学生加减乘除出题器
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new FrmMain());
         }
     }
 }
